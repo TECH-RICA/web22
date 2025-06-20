@@ -1,0 +1,330 @@
+*{
+    text-decoration: none;
+}
+/*================================HEADER SECTION==============================*/
+
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #13b43b;
+    border-radius: 10px;
+}
+
+.menu-toggle {
+    display: flex;
+    align-items: center;
+    font-size: 32px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    margin-right: 20px; /* Add space to the right of the hamburger */
+}
+
+h1 {
+    color: white;
+    margin: 0 20px;
+    font-size: 2em;
+    flex: 1; /* Allow h1 to take available space */
+}
+
+
+nav ul{
+ list-style-type: none;   
+}
+nav ul li{
+    display: inline;
+    margin-right: 10px;
+    }
+    nav ul li a{
+        color: white;
+        text-transform: capitalize;
+    }
+    nav ul li a:hover{
+        text-decoration: underline;
+    }
+    nav ul li a:visited{
+        color: purple;
+    }
+.nav-links{
+    list-style-type: none;
+    display: flex;
+ }
+ .nav-links li{
+    margin: 0 10px;
+    text-align: center;
+ }
+ .nav-links a{
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    text-transform: capitalize;
+    margin-right: 15px;
+    font-weight: 500;
+ }
+ 
+ .hamburger, .close{
+    font-size: 32px;
+    color: white;
+    cursor: pointer;
+    display: none;
+    user-select: none;
+ }
+ /*================================CONTACT US SECTION SECTION==============================*/
+.contact-us{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 25px;
+    align-items: center;
+    margin-bottom: 0;
+}
+.contact-us div{
+    display: flex;
+    margin-bottom: 0;
+}
+.contact-us div h2{
+    transform: translateY(-30px);
+    font-size: 2.3em;
+    margin-left: 10px;
+    text-transform: capitalize;
+}
+.contact-us div img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.contact-us p{
+margin-top: 0;
+transform: translateY(-40px);
+font-size: 1.6em;
+}
+.form-section{
+    display: flex;
+    width: 100%;
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    border-radius: 15px;
+    margin-top: 0;
+}
+/*================================MESSAGE US SECTION==============================*/
+.message-us {
+    width: 50%;
+    padding: 10px;
+}
+.message-us input{
+    width: 90%;
+    margin-bottom: 12px;
+   border:2px solid gray;
+    outline: none;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 5px;
+    font-size: 1.3em;
+}
+.message-us label{
+   text-transform: capitalize;
+ margin: 5px;
+ font-size: 1.3em;
+}
+.message-us textarea{
+    width: 90%;
+    margin-bottom: 12px;
+    margin-top: 5px;
+    border-radius: 10px;
+    outline: none;
+    border: 2px solid grey;
+    padding: 12px;
+    font-size: 1.3em;
+}
+.message-us #submit-btn{
+    width: 97%;
+    border: none;
+    outline: none;
+    background-color: #13b43b;
+    color: white;
+    font-size: 1.5em;
+}
+.message-us #submit-btn:hover{
+    background-color: forestgreen;
+    color:white;
+}
+.message-us #submit-btn:active{
+    background-color: forestgreen;
+    color:white;
+}
+/*================================CONTACTS SECTION==============================*/
+.contacts{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center; 
+}
+.contacts p{
+    margin-bottom: 6px;
+    margin-top: 6px;
+    font-size: 1.2em;
+}
+.contacts ul{
+    list-style-type: none;
+}
+.contacts ul li{
+    display: inline;
+}
+.contacts ul li a img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+.contacts h6{
+    font-size: 2.1em;
+    text-align: center;
+    text-transform: capitalize;
+    margin-bottom: 0;
+    margin-top: 6px;
+}
+h3{
+    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+/*================================FOOTER SECTION==============================*/
+footer{
+    text-align: center;
+    background-color: #13b43b;
+    padding: 12px;
+    color: white;
+}    
+
+/*================================MEDIA RESPONSIVENESS SECTION==============================*/
+@media (max-width:767px){  
+    
+.nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        left: 10px;
+        width: 200px;
+        border-radius: 10px;
+        background-color: #13b43b;
+        box-shadow: 0 0 10px rgba(0,0,0,0.07);
+        z-index: 1000;
+        
+        
+    }
+    .menu-toggle {
+        display: flex;
+        margin-right: 20px;
+    }
+    .nav-links.active {
+        display: flex;
+    }
+    .nav-links li {
+        margin: 15px 0;
+        text-align: left;
+       
+    }
+   
+    header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px;
+    }
+    h1 {
+        font-size: 2.9em;
+        margin-left: 75px;
+        
+    }
+    .hamburger, .close {
+    display: block;
+    color: white;
+    padding: 5px;
+    font-size: 32px;
+}
+
+header h1 {
+    font-size: 1.5em;
+}
+    
+
+
+.hamburger{
+    display: block;
+   
+   color: white;
+   ;
+    padding: 5px;
+
+}
+.close{
+    position: absolute;
+    left: 220px;
+    top: 60px;
+    font-size: 100%;
+    display: none;
+    color: white;
+    z-index: 100000000000000;
+    font-weight: 600;
+}
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.form-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.message-us, .contacts,.contact-us{
+    width: 85%;
+    font-size: 16px;
+}
+.contact-us{
+    margin: 20px;
+    
+}
+.contacts h2{
+    font-size: 16px;
+}
+}
+
+/*
+/* Hide menu toggle by default 
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 2em;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 1001;
+}
+
+/* Responsive styles for screens <= 767px */
+
+/* Optional: Hide close icon by default 
+.menu-toggle .close {
+    display: none;
+}
+.menu-toggle.active .hamburger {
+    display: none;
+}
+.menu-toggle.active .close {
+    display: inline;
+}
+*/

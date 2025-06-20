@@ -1,0 +1,568 @@
+
+
+
+<script>
+    
+
+
+    <!-- Ten Testimonials -->
+
+
+
+
+
+
+
+
+// Sign Up form validation
+document.querySelector('#signupModal form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = this.querySelector('input[type="text"]').value.trim();
+    const email = this.querySelector('input[type="email"]').value.trim();
+    const password = this.querySelector('input[type="password"]').value.trim();
+    if (!name || !email || !password) {
+        alert('Please fill in all fields.');
+        return;
+    }
+    // Simulate sign up success (replace with real registration)
+    document.getElementById('signupModal').style.display = 'none';
+    showDashboard(name);
+});
+
+// Show dashboard after login/signup
+function showDashboard(user) {
+    document.getElementById('dashboardUser').textContent = user;
+    document.getElementById('dashboard').style.display = 'block';
+}
+
+// Logout logic
+document.getElementById('logoutBtn').onclick = function() {
+    document.getElementById('dashboard').style.display = 'none';
+};
+
+
+
+
+
+
+
+
+div id="dashboard" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); z-index:3000; justify-content:center; align-items:center;">
+  <div style="background:#fff; padding:40px 30px; border-radius:10px; text-align:center; min-width:250px;">
+    <h2>Welcome, <span id="dashboardUser"></span>!</h2>
+    <p>This is your dashboard. You can add more features here.</p>
+    <button id="logoutBtn" style="background:#13b43b; color:#fff; border:none; padding:10px 30px; border-radius:5px; cursor:pointer;">Logout</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+Let me know if you want a full, clean file example or want to add more dashboard features!
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TechRica</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* --- Navigation Styles --- */
+        body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }
+        header { background: #13b43b; color: #fff; padding: 20px 0; }
+        .navbar { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; }
+        .navbar h1 { margin-left: 20px; }
+        .nav-links { display: flex; list-style: none; margin-right: 20px; }
+        .nav-links li { margin: 0 10px; }
+        .nav-links a { color: #fff; text-decoration: none; font-weight: bold; }
+        .menu-toggle { display: none; position: relative; }
+        .hamburger, .close { font-size: 2em; color: #fff; cursor: pointer; display: none; user-select: none; }
+        .hamburger { display: block; }
+        .close { display: none; position: absolute; right: -40px; top: 0; }
+        @media (max-width: 767px) {
+            .nav-links { 
+                display: none; flex-direction: column; position: absolute; top: 60px; left: 10px; background: #333; border-radius: 20px; width: 150px; z-index: 1000;
+            }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; margin-right: 20px; }
+        }
+
+        /* --- Testimonial Carousel Styles --- */
+        .testimonials { display: flex; align-items: center; justify-content: center; margin: 40px 0; gap: 10px; }
+        .arrow { background: #13b43b; color: white; border: none; font-size: 2em; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; transition: background 0.2s; }
+        .arrow:hover { background: orange; }
+        .testimonial-container { display: flex; overflow: hidden; width: 350px; height: 150px; position: relative; }
+        .testimonial { min-width: 100%; box-sizing: border-box; background: white; color: #13b43b; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 20px; margin: 0 10px; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; transition: opacity 0.3s; }
+        .testimonial.active { display: flex; opacity: 1; }
+        @media (max-width: 500px) { .testimonial-container { width: 90vw; height: auto; } }
+
+        /* --- FAQ Section Styles --- */
+        .faq-section { max-width: 600px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; }
+        .faq-question { background: #13b43b; color: white; padding: 15px; margin: 10px 0; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
+        .faq-question:hover { background: orange; }
+        .faq-answer { display: none; background: #f9f9f9; color: #222; padding: 15px; border-radius: 8px; margin-bottom: 10px; margin-top: -5px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .faq.show .faq-answer { display: block; }
+
+        /* --- Modal Styles --- */
+        
+
+        
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <h1>TechRica</h1>
+            <div class="menu-toggle">
+                <span class="hamburger">&#9776;</span>
+                <span class="close">&times;</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About us</a></li>
+                <li><a href="#">FAQs</a></li>
+                <li><a href="#">Contacts</a></li>
+                <li><a href="#" id="loginBtn">Login</a></li>
+                <li><a href="#" id="signupBtn">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Testimonial Carousel -->
+    <section class="testimonials">
+        <button class="arrow left">&#8592;</button>
+        <div class="testimonial-container">
+            <div class="testimonial active"><p>"TechRica exceeded my expectations with their fast and reliable service. Highly recommended!"</p><h4>- Sarah Williams</h4></div>
+            <div class="testimonial"><p>"The support team was always available and solved my issues quickly. Great experience!"</p><h4>- Michael Brown</h4></div>
+            <div class="testimonial"><p>"Affordable pricing and top-notch quality. I will definitely use TechRica again."</p><h4>- Priya Patel</h4></div>
+            <div class="testimonial"><p>"Their digital solutions helped my business grow. Professional and efficient!"</p><h4>- David Kim</h4></div>
+            <div class="testimonial"><p>"I loved the user-friendly interface and quick turnaround time. Thank you, TechRica!"</p><h4>- Emily Chen</h4></div>
+            <div class="testimonial"><p>"TechRica’s team is knowledgeable and courteous. They made everything easy for me."</p><h4>- Ahmed Hassan</h4></div>
+            <div class="testimonial"><p>"The project was delivered ahead of schedule and worked perfectly. Five stars!"</p><h4>- Laura Garcia</h4></div>
+            <div class="testimonial"><p>"Excellent communication throughout the process. I felt valued as a customer."</p><h4>- Tom Müller</h4></div>
+            <div class="testimonial"><p>"Their innovative solutions gave my company a competitive edge. Highly satisfied!"</p><h4>- Aisha Bello</h4></div>
+            <div class="testimonial"><p>"From start to finish, TechRica was professional, responsive, and effective."</p><h4>- Lucas Rossi</h4></div>
+        </div>
+        <button class="arrow right">&#8594;</button>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq">
+            <div class="faq-question">What is TechRica?</div>
+            <div class="faq-answer">TechRica is a digital solutions company specializing in web development, IT consulting, and digital marketing.</div>
+        </div>
+        <div class="faq">
+            <div class="faq-question">What are the services offered by TechRica?</div>
+            <div class="faq-answer">We offer web development, mobile app development, IT consulting, cloud solutions, and digital marketing services.</div>
+        </div>
+        <div class="faq">
+            <div class="faq-question">Can I access TechRica on mobile?</div>
+            <div class="faq-answer">Yes, our services and website are fully optimized for mobile devices.</div>
+        </div>
+        <div class="faq">
+            <div class="faq-question">How do I contact TechRica?</div>
+            <div class="faq-answer">You can contact us via our website contact form, email, or phone. Our support team is available 24/7.</div>
+        </div>
+        <div class="faq">
+            <div class="faq-question">Does TechRica offer maintenance on software and applications they create for their customers?</div>
+            <div class="faq-answer">Yes, we provide ongoing maintenance and support for all software and applications we develop.</div>
+        </div>
+        <div class="faq">
+            <div class="faq-question">Where is TechRica Located?</div>
+            <div class="faq-answer">TechRica is headquartered in Lagos, Nigeria, but we serve clients worldwide.</div>
+        </div>
+    </section>
+
+   
+
+    <!-- Dashboard Modal -->
+   
+
+    <script>
+    // --- Navigation Hamburger Logic ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const hamburger = document.querySelector('.hamburger');
+        const close = document.querySelector('.close');
+        const navLinks = document.querySelector('.nav-links');
+        const menuToggle = document.querySelector('.menu-toggle');
+
+        function openMenu() {
+            navLinks.classList.add('active');
+            hamburger.style.display = 'none';
+            close.style.display = 'block';
+        }
+        function closeMenu() {
+            navLinks.classList.remove('active');
+            hamburger.style.display = 'block';
+            close.style.display = 'none';
+        }
+        hamburger.addEventListener('click', function(e) { e.stopPropagation(); openMenu(); });
+        close.addEventListener('click', function(e) { e.stopPropagation(); closeMenu(); });
+        document.addEventListener('click', function(e) {
+            if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                closeMenu();
+            }
+        });
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 767) {
+                navLinks.classList.remove('active');
+                hamburger.style.display = 'block';
+                close.style.display = 'none';
+            }
+        });
+    });
+
+    // --- Testimonial Carousel ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const testimonials = document.querySelectorAll('.testimonial');
+        const leftArrow = document.querySelector('.arrow.left');
+        const rightArrow = document.querySelector('.arrow.right');
+        let current = 0;
+        function showTestimonial(index) {
+            testimonials.forEach((t, i) => t.classList.toggle('active', i === index));
+        }
+        leftArrow.addEventListener('click', function() {
+            current = (current - 1 + testimonials.length) % testimonials.length;
+            showTestimonial(current);
+        });
+        rightArrow.addEventListener('click', function() {
+            current = (current + 1) % testimonials.length;
+            showTestimonial(current);
+        });
+        showTestimonial(current);
+    });
+
+    // --- FAQ Toggle Logic ---
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.querySelectorAll('.faq').forEach(faq => faq.classList.remove('show'));
+            this.parentElement.classList.add('show');
+        });
+    });
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.faq').forEach(faq => faq.classList.remove('show'));
+    });
+
+    // --- Modal Logic ---
+    
+
+    // --- Login/Sign Up Form Validation and Dashboard ---
+    let currentUser = { name: '', email: '' };
+
+    document.querySelector('#loginModal form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = this.querySelector('input[type="email"]').value.trim();
+        const password = this.querySelector('input[type="password"]').value.trim();
+        if (!email || !password) {
+            alert('Please enter both email and password.');
+            return;
+        }
+        document.getElementById('loginModal').style.display = 'none';
+        currentUser = { name: email.split('@')[0], email: email };
+        showDashboard();
+    });
+
+    document.querySelector('#signupModal form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = this.querySelector('input[type="text"]').value.trim();
+        const email = this.querySelector('input[type="email"]').value.trim();
+        const password = this.querySelector('input[type="password"]').value.trim();
+        if (!name || !email || !password) {
+            alert('Please fill in all fields.');
+            return;
+        }
+        document.getElementById('signupModal').style.display = 'none';
+        currentUser = { name: name, email: email };
+        showDashboard();
+    });
+
+    function showDashboard() {
+        document.getElementById('dashboardUser').textContent = currentUser.name;
+        document.getElementById('dashboardEmail').textContent = currentUser.email;
+        document.getElementById('dashboard').style.display = 'flex';
+        document.getElementById('passwordMsg').style.display = 'none';
+        document.getElementById('newPassword').value = '';
+    }
+
+    document.getElementById('logoutBtn').onclick = function() {
+        document.getElementById('dashboard').style.display = 'none';
+        currentUser = { name: '', email: '' };
+    };
+
+    // --- Change Password Feature ---
+    document.getElementById('changePasswordBtn').onclick = function() {
+        const newPass = document.getElementById('newPassword').value.trim();
+        if (!newPass) {
+            alert('Please enter a new password.');
+            return;
+        }
+        document.getElementById('passwordMsg').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('passwordMsg').style.display = 'none';
+            document.getElementById('newPassword').value = '';
+        }, 2000);
+    };
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+// ...other code...
+
+// Login form validation and backend integration
+document.querySelector('#loginModal form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = this.querySelector('input[type="email"]').value.trim();
+    const password = this.querySelector('input[type="password"]').value.trim();
+    if (!email || !password) {
+        alert('Please enter both email and password.');
+        return;
+    }
+    try {
+        const res = await fetch('http://localhost:3000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        document.getElementById('loginModal').style.display = 'none';
+        currentUser = { name: data.name, email: data.email };
+        showDashboard();
+    } catch (err) {
+        alert(err.message);
+    }
+});
+
+// Sign Up form validation and backend integration
+document.querySelector('#signupModal form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const name = this.querySelector('input[type="text"]').value.trim();
+    const email = this.querySelector('input[type="email"]').value.trim();
+    const password = this.querySelector('input[type="password"]').value.trim();
+    if (!name || !email || !password) {
+        alert('Please fill in all fields.');
+        return;
+    }
+    try {
+        const res = await fetch('http://localhost:3000/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        document.getElementById('signupModal').style.display = 'none';
+        currentUser = { name: data.name, email: data.email };
+        showDashboard();
+    } catch (err) {
+        alert(err.message);
+    }
+});
+
+// Change Password backend integration
+document.getElementById('changePasswordBtn').onclick = async function() {
+    const newPass = document.getElementById('newPassword').value.trim();
+    if (!newPass) {
+        alert('Please enter a new password.');
+        return;
+    }
+    try {
+        const res = await fetch('http://localhost:3000/api/change-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: currentUser.email, newPassword: newPass })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        document.getElementById('passwordMsg').textContent = data.message;
+        document.getElementById('passwordMsg').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('passwordMsg').style.display = 'none';
+            document.getElementById('newPassword').value = '';
+        }, 2000);
+    } catch (err) {
+        alert(err.message);
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+header('Content-Type: application/json');
+$data = json_decode(file_get_contents('php://input'), true);
+
+if (!isset($data['name'], $data['email'], $data['password'])) {
+    http_response_code(400);
+    echo json_encode(['message' => 'Missing fields']);
+    exit;
+}
+
+$usersFile = __DIR__ . '/users.json';
+$users = file_exists($usersFile) ? json_decode(file_get_contents($usersFile), true) : [];
+
+foreach ($users as $user) {
+    if ($user['email'] === $data['email']) {
+        http_response_code(400);
+        echo json_encode(['message' => 'Email already exists']);
+        exit;
+    }
+}
+
+$users[] = [
+    'name' => $data['name'],
+    'email' => $data['email'],
+    'password' => password_hash($data['password'], PASSWORD_DEFAULT)
+];
+
+file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
+echo json_encode(['message' => 'Registered successfully', 'name' => $data['name'], 'email' => $data['email']]);
+
+
+
+
+<?php
+header('Content-Type: application/json');
+$data = json_decode(file_get_contents('php://input'), true);
+
+if (!isset($data['email'], $data['password'])) {
+    http_response_code(400);
+    echo json_encode(['message' => 'Missing fields']);
+    exit;
+}
+
+$usersFile = __DIR__ . '/users.json';
+$users = file_exists($usersFile) ? json_decode(file_get_contents($usersFile), true) : [];
+
+foreach ($users as $user) {
+    if ($user['email'] === $data['email'] && password_verify($data['password'], $user['password'])) {
+        echo json_encode(['message' => 'Login successful', 'name' => $user['name'], 'email' => $user['email']]);
+        exit;
+    }
+}
+
+http_response_code(401);
+echo json_encode(['message' => 'Invalid credentials']);
+
+
+<?php
+header('Content-Type: application/json');
+$data = json_decode(file_get_contents('php://input'), true);
+
+if (!isset($data['email'], $data['newPassword'])) {
+    http_response_code(400);
+    echo json_encode(['message' => 'Missing fields']);
+    exit;
+}
+
+$usersFile = __DIR__ . '/users.json';
+$users = file_exists($usersFile) ? json_decode(file_get_contents($usersFile), true) : [];
+$found = false;
+
+foreach ($users as &$user) {
+    if ($user['email'] === $data['email']) {
+        $user['password'] = password_hash($data['newPassword'], PASSWORD_DEFAULT);
+        $found = true;
+        break;
+    }
+}
+unset($user);
+
+if ($found) {
+    file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
+    echo json_encode(['message' => 'Password changed successfully']);
+} else {
+    http_response_code(404);
+    echo json_encode(['message' => 'User not found']);
+}
+
+
+
+
+
+
+// Registration
+const res = await fetch('api/register.php', { ... });
+
+// Login
+const res = await fetch('api/login.php', { ... });
+
+// Change password
+const res = await fetch('api/change-password.php', { ... });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+
+techrica
+TEchric@2@2@
