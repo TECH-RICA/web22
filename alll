@@ -566,3 +566,5 @@ const res = await fetch('api/change-password.php', { ... });
 
 techrica
 TEchric@2@2@
+
+<img src="yourimage.jpg" loading="lazy" alt="..." />
