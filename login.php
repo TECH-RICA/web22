@@ -79,31 +79,3 @@ $conn->close();
     <p style = " text decoration:none;"><a href="login-sign-up.php">Try to Login again!</a></p>
 </body>
 </html>
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login - TechRica</title>
-    <link rel="stylesheet" href="login.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<main>
-    <div class="profile-container">
-        <h2>Login</h2>
-        <?php if ($message) echo $message; ?>
-        <form method="POST" class="profile-actions">
-    <label for="email">Email:</label>
-    <input type="email" name="email" id="email" required>
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password" required>
-    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-    <input type="submit" value="Login" id="submit-btn">
-</form>
-        <p><a href="register.php">Don't have an account? Register</a></p>
-    </div>
-</main>
-</body>
-</html>
--->
