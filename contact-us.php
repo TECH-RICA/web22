@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $conn = new mysqli("localhost", "root", "", "members");
+    $conn = new mysqli("localhost", "root", "27580072@willy", "members");
     if ($conn->connect_error) {
         die("Database connection failed: " . $conn->connect_error);
     }
@@ -12,8 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
     $stmt->close();
     $conn->close();
-    $success = "Your message has been sent!";
+    header("Location: ../phpfiles/contact-us.php?success=1");
+    exit;
 }
+$success = isset($_GET['success']) ? "Your message has been sent!" : null;
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,80 +24,136 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="contact-us.css">
+     <link rel="stylesheet" href="footer.css">
+      <link rel="stylesheet" href="fontawesome/css/all.min.css">
     <link rel="stylesheet" href="dark-mode.css">
 </head>
 <body>
- <?php if (isset($success)): ?>
-<script>
-    alert("<?php echo $success; ?>");
-</script>
+
+<?php if (isset($success)): ?>
+    <?php if ($success): ?>
+    <div class="success-message" id="successMsg"><?php echo $success; ?></div>
+    <?php endif; ?>
 <?php endif; ?>
 
-     <header>
-         
-     <div class="menu-toggle">
-        <span class="hamburger">&#9776;</span>
-        <span class="close">&times;</span>
-    </div>
-        <h1>TechRica</h1>
-
-        <nav class="navbar">
-   
-        <ul class="nav-links">
-    <li><a class="nav-link" data-page="index.php">Home</a></li>
-    <li><a class="nav-link" data-page="about-us.php">About us</a></li>
-    <li><a class="nav-link" data-page="faqs.html">faqs</a></li>
-    <li><a class="nav-link" data-page="contact-us.php">contacts</a></li>
-    <li><a class="nav-link" data-page="login-sign-up.php">login</a></li>
-    <li><a class="nav-link" data-page="profile.php">Profile</a></li>
-     <li><button onclick="toggleDarkMode()" id="darkModeBtn">🌙 Dark Mode</button></li>
-
-</ul>
-</nav>
-</header>
+     <?php include 'header.php'; ?>
 <!--=====================================contact-us section=============-->
-    <div class="contact-us">
-            <div>
-                <img src="images/phone.png" alt="phone-icon">
-        <h2 >contact Us</h2>
-            </div>
-            <p>We'd love to hear from you! 
-            Reach out with any questions or feedback.</p>
+    <div class="contact-hero">
+        <h2>Let’s Connect!</h2>
+        <p>Have a question, project, or feedback? Fill out the form or reach us directly—we’ll get back to you soon!</p>
     </div>
     <section class="form-section">
         <div class="message-us">
             <h3>send us a message</h3>
          <form action="contact-us.php" method="POST">
-            <label for="name">Full name</label>
+            <label for="name"><i class="fa fa-user"></i> Full name</label>
             <input type="text" id="name" required placeholder="Enter your name" name ="name">
-            <label for="email">email address</label>
-            <input type="text" id="email" required placeholder="Enter your email" name="email">
+            <label for="email"><i class="fa fa-envelope"></i> email</label>
+            <input type="email" id="email" required placeholder="Enter your email" name="email">
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-            <label for="message">message</label>
+            <label for="message"> <i class="fa fa-comment-dots"></i> message</label>
             <textarea name="message" id="message" placeholder="Message" cols="19" rows="4"></textarea>
-            <input type="submit" value="submit" id="submit-btn">
+            <button type="submit" id="submit-btn">
+    <i class="fa fa-paper-plane"></i> Submit
+</button>
          </form>
         </div>
         <div class="contacts">
             <h3>Get in touch with us</h3>
-            <p>Address: Kutus,Kirinyaga.</p>
-            <p>Email: <a href="techrica101@gmail.com">techrica101@gmail.com</a></p>
-            <p>Phone: +254113798611</p>
-            <h6>follow us</h6>
+            <p><i class="fa fa-map-marker-alt"></i> Address :Kutus, Kirinyaga, Kenya</p>
+            <p>Email: <a href="mailto:techrica101@gmail.com"><i class="fa fa-envelope"></i>techrica101@gmail.com</a></p>
+                <p><i class="fa fa-phone"></i> +254 712 345678</p>
+            <p><i class="fa fa-clock"></i> Mon-Fri: 8am - 6pm</p>
+            <h6>Follow us</h6>
             <ul>
-                <li><a href="#"><img src="images/icons8-facebook-logo-48 (1).png" alt="facebook icon"></a></li>
-                <li><a href="#"><img src="images/icons8-instagram-48.png" alt="instagram icon"></a></li>
-                <li><a href="#"><img src="images/whatsapp.png" alt="whatsapp icon"></a></li>
+                <li>  <a href="#"><i class="fab fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
             </ul>
         </div>
     </section>
     <footer>
-        <p>&copy; 2025 TechRica.All Rights Reserved.</p>
-    </footer>
-
-    <script src="new.js" defer> </script>
-    <script src = "index.js"></script>
+    
+  <section class="footer">
+     <div class="footer-desc">
+    <div>
+        <picture>
+        <img src="images/IMG-20250413-WA0003.jpg" alt="our company logo">
+    </picture>
+    <h6>Tech.Rica</h6>
+    </div>
+      <p>Leading the future with cutting-edge AI solutions and digital innovations</p>   
+   </div>
       
+        <span class="footer-socials">
+            <a href="https://facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://wa.me/your-number" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://t.me/yourusername" target="_blank"><i class="fab fa-telegram"></i></a>
+        </span>
+        <div class="quick-links">
+            <h1>Quick Links</h1>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-services">
+            <h1>Services</h1>
+            <ul>
+                <li><a href="#">AI consulting</a></li>
+                <li><a href="#">Automation Tools</a></li>
+                <li><a href="#">Digital Solutions</a></li>
+                <li><a href="#">Machine Learning</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+            <p><i class="fa fa-phone"></i> +254113798611 </p>
+            <p><i class="fa fa-envelope"></i> info@techrica.com</p>
+            <p><i class="fa fa-map-marker-alt"></i>  Nairobi,Kenya</p>
+        </div>
+  </section>
+  <hr></hr>
+   
+ <p class = "footer-p">&copy; 2025 Tech.Rica.All Rights Reserved.Power the future with AI.</p>
+</
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let msg = document.getElementById('successMsg');
+        if(msg) {
+            setTimeout(function() {
+                msg.style.transition = 'opacity 0.5s';
+                msg.style.opacity = 0;
+                setTimeout(function() { msg.style.display = 'none'; }, 500);
+            }, 2000);
+            // Remove ?success=1 from URL after showing the message
+            if (window.location.search.includes('success=1')) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+        // Client-side validation for empty fields
+        var form = document.querySelector('.message-us form');
+        if(form) {
+            form.addEventListener('submit', function(e) {
+                let name = form.name.value.trim();
+                let email = form.email.value.trim();
+                let message = form.message.value.trim();
+                if(!name || !email || !message) {
+                    alert('Please fill in all fields.');
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+    </script>
+    <script src="new.js" defer></script>
+    <script src = "index.js"></script>      
       
 </body>
 </html>

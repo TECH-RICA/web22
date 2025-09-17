@@ -1,0 +1,33 @@
+body.dark-mode {
+    background: #181818;
+    color: #eee;
+}
+/*
+body.dark-mode h2,body.dark-mode h3,body.dark-mode h4, .faq-section.dark-mode{
+ 
+    color: white;
+}
+    */
+
+body.dark-mode .profile-container {
+    background: #232323;
+    color: #eee;
+}
+body.dark-mode input, body.dark-mode textarea {
+    background: #222;
+    color: #eee;
+    border-color: #444;
+}
+ nav ul li button{
+        border-radius: 20px;
+        border: none;
+        outline: none;
+        font-size: 1em;
+    }
+    
+    body.dark-mode .service-grid h2,h4,p{
+        color: black;
+    }
+    body.dark-mode #why-h3{
+        color: white;
+    }

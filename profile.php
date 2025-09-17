@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 900)) {
@@ -14,15 +15,12 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: ../phpfiles/login.php");
     exit;
 }
-$email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $error = "Invalid email address.";
-}
-$username = htmlspecialchars(trim($_POST['username']));
-$conn = new mysqli("localhost", "root", "", "members");
+$email = $_SESSION['email'] ?? '';
+$username = $_SESSION['username'] ?? '';
+$conn = new mysqli("localhost", "root", "27580072@willy", "members");
 $user_id = $_SESSION['user_id'];
 $message = "";
 
@@ -38,6 +36,7 @@ if (isset($_POST['upload_image']) && isset($_FILES['profile_image'])) {
         if (!is_dir('uploads')) mkdir('uploads');
         $new_name = 'uploads/user_' . $user_id . '_' . time() . '.' . $ext;
         if (move_uploaded_file($img['tmp_name'], $new_name)) {
+            chmod($new_name, 0644);
             $stmt = $conn->prepare("UPDATE users SET profile_image=? WHERE id=?");
             $stmt->bind_param("si", $new_name, $user_id);
             $stmt->execute();
@@ -134,10 +133,14 @@ if (isset($_POST['change_password'])) {
 }
 
 // Fetch user info (now includes profile_image)
-$stmt = $conn->prepare("SELECT name, email, username, profile_image FROM users WHERE id=?");
+$stmt = $conn->prepare("SELECT username, email, profile_image FROM users WHERE id=?");
+if (!$stmt) {
+    echo "Prepare failed: (" . $conn->errno . ") " . $conn->error;
+    exit;
+}
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
-$stmt->bind_result($name, $email, $username, $profile_image);
+$stmt->bind_result( $username, $email,  $profile_image);
 $stmt->fetch();
 $stmt->close();
 $conn->close();
@@ -148,13 +151,13 @@ if (empty($profile_image) || !file_exists($profile_image)) {
 }
 
 // Profile completion progress
-$fields = [$name, $email, $username, ($profile_image !== 'uploads/default.png')];
+$fields = [ $username,$email, ($profile_image !== 'uploads/default.png')];
 $filled = count(array_filter($fields));
 $progress = intval(($filled / count($fields)) * 100);
 
 // Handle account deletion
 if (isset($_POST['delete_account']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
-    $conn = new mysqli("localhost", "root", "", "members");
+    $conn = new mysqli("localhost", "root", "27580072@willy", "members");
     $stmt = $conn->prepare("DELETE FROM users WHERE id=?");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -171,6 +174,8 @@ if (isset($_POST['delete_account']) && $_POST['csrf_token'] === $_SESSION['csrf_
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Profile - TechRica</title>
     <link rel="stylesheet" href="profile.css">
+     <link rel="stylesheet" href="fontawesome/css/all.min.css">
+     <link rel="stylesheet" href="footer.css">
     <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body>
@@ -191,7 +196,7 @@ if (isset($_POST['delete_account']) && $_POST['csrf_token'] === $_SESSION['csrf_
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 <input type="hidden" name="upload_image" value="1">
             </form>
-            <h2>Welcome, <?php echo htmlspecialchars($name); ?></h2>
+            <h2>Welcome, <?php echo htmlspecialchars($username); ?></h2>
         </div>
         <?php if ($message) echo $message; ?>
         <div class="profile-info">
@@ -231,14 +236,61 @@ if (isset($_POST['delete_account']) && $_POST['csrf_token'] === $_SESSION['csrf_
             <input type="submit" name="delete_account" value="Delete Account" style="background:#b00020;">
         </form>
         <!-- Logout Form -->
-        <form action="logout.php" method="POST" class="profile-actions">
+        <form action="phpfiles/logout.php" method="POST" class="profile-actions">
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <input type="submit" value="Logout" onclick="return confirm('Are you sure you want to logout?');">
         </form>
     </div>
 </main>
-<footer>
-    <p>&copy; 2025 TechRica. All Rights Reserved.</p>
+ <footer>
+    
+  <section class="footer">
+     <div class="footer-desc">
+    <div>
+        <picture>
+        <img src="images/IMG-20250413-WA0003.jpg" alt="our company logo">
+    </picture>
+    <h6>Tech.Rica</h6>
+    </div>
+      <p>Leading the future with cutting-edge AI solutions and digital innovations</p>   
+   </div>
+      
+        <span class="footer-socials">
+            <a href="https://facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://wa.me/your-number" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://t.me/yourusername" target="_blank"><i class="fab fa-telegram"></i></a>
+        </span>
+        <div class="quick-links">
+            <h1>Quick Links</h1>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-services">
+            <h1>Services</h1>
+            <ul>
+                <li><a href="#">AI consulting</a></li>
+                <li><a href="#">Automation Tools</a></li>
+                <li><a href="#">Digital Solutions</a></li>
+                <li><a href="#">Machine Learning</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+            <p><i class="fa fa-phone"></i> +254113798611 </p>
+            <p><i class="fa fa-envelope"></i> info@techrica.com</p>
+            <p><i class="fa fa-map-marker-alt"></i>  Nairobi,Kenya</p>
+        </div>
+  </section>
+  <hr></hr>
+   
+ <p class = "footer-p">&copy; 2025 Tech.Rica.All Rights Reserved.Power the future with AI.</p>
 </footer>
 <script src = "profile.js"></script>
 </body>

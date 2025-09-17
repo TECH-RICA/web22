@@ -1,6 +1,13 @@
+
 <?php
 session_start();
 $message = "";
+
+// Show notification if set (after redirect from forgot-password)
+if (isset($_SESSION['reset_notify'])) {
+    $message .= "<div class='success'>" . $_SESSION['reset_notify'] . "</div>";
+    unset($_SESSION['reset_notify']);
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $code = trim($_POST['code'] ?? '');
@@ -21,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = "<div class='error'>Password must be at least 8 characters and include letters, numbers, and symbols.</div>";
     } else {
         // Update password
-        $conn = new mysqli("localhost", "root", "", "members");
+        $conn = new mysqli("localhost", "root", "27580072@willy", "members");
         $hash = password_hash($new_password, PASSWORD_DEFAULT);
         $stmt = $conn->prepare("UPDATE users SET password=? WHERE email=?");
         $stmt->bind_param("ss", $hash, $_SESSION['reset_email']);
@@ -42,16 +49,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="reset-password.css">
 </head>
 <body>
-<h2>Reset Password</h2>
-<?php echo $message; ?>
-<form method="POST">
-    <label for="code">Enter the code sent to your email:</label>
-    <input type="text" name="code" required>
-    <label for="new_password">New Password:</label>
-    <input type="password" name="new_password" required>
-    <label for="confirm_password">Confirm New Password:</label>
-    <input type="password" name="confirm_password" required>
-    <input type="submit" value="Reset Password">
-</form>
+
+<div class="auth-container">
+    <h2>Reset Password</h2>
+    <?php echo $message; ?>
+    <form method="POST">
+        <label for="code">Enter the code sent to your email:</label>
+        <input type="text" name="code" required>
+        <label for="new_password">New Password:</label>
+        <input type="password" name="new_password" required>
+        <label for="confirm_password">Confirm New Password:</label>
+        <input type="password" name="confirm_password" required>
+        <input type="submit" id="reset-btn" value="Reset Password">
+    </form>
+</div>
 </body>
 </html>

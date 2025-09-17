@@ -22,3 +22,9 @@ body.dark-mode input, body.dark-mode textarea {
         outline: none;
         font-size: 1em;
     }
+    body.dark-mode .who-we-are h2,p{
+        color: black;
+    }
+    body.dark-mode .black{
+        color: black;
+    }

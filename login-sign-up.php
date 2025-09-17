@@ -1,7 +1,12 @@
 <?php session_start();
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-} ?>
+} 
+$message = '';
+if (isset($_GET['error'])) {
+    $message = "<div class='error'>" . htmlspecialchars($_GET['error']) . "</div>";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,34 +14,12 @@ if (empty($_SESSION['csrf_token'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login / Sign Up / Forgot Password - TechRica</title>
     <link rel="stylesheet" href="login-signup.css">
+     <link rel="stylesheet" href="footer.css">
     <link rel="stylesheet" href="dark-mode.css">
-
-    <style>
-        .auth-container { display: none; }
-        .auth-container.active { display: block; }
-        .auth-link { margin-top: 18px; text-align: center; }
-        .success, .error { text-align: center; margin: 10px 0; }
-    </style>
+     <link rel="stylesheet" href="../fontawesome/css/all.min.css">
 </head>
 <body>
-<header>
-    <div class="menu-toggle">
-        <span class="hamburger">&#9776;</span>
-        <span class="close">&times;</span>
-    </div>
-    <h1>TechRica</h1>
-    <nav class="navbar">
-        <ul class="nav-links">
-            <li><a class="nav-link" data-page="index.php">Home</a></li>
-            <li><a class="nav-link" data-page="about-us.php">About us</a></li>
-            <li><a class="nav-link" data-page="faqs.html">FAQs</a></li>
-            <li><a class="nav-link" data-page="contact-us.php">Contacts</a></li>
-            <li><a class="nav-link" data-page="login-sign-up.php">Login</a></li>
-            <li><a class="nav-link" data-page="profile.php">Profile</a></li>
-             <li><button onclick="toggleDarkMode()" id="darkModeBtn">🌙 Dark Mode</button></li>
-        </ul>
-    </nav>
-</header>
+<?php include 'header.php'; ?>
 
 <main>
     <!-- Login Form -->
@@ -45,12 +28,24 @@ if (empty($_SESSION['csrf_token'])) {
         <h3>Welcome Back,</h3>
         <form class="auth-form" action="login.php" method="POST">
             <label for="login-email">Email</label>
-            <input type="email" id="login-email" name="email" required>
+
+                 <div class="input-icon">
+         <input type="email" id="login-email" name="email" required placeholder="Email">
+         <i class="fa fa-envelope"></i>
+            </div>
+
             <label for="pass">Password</label>
-            <input type="password" id="pass" name="password" required>
-             <input type="checkbox" id="showPass" onclick="togglePass()"> Show Password
+
+            <div class="input-icon">
+         <input type="password" id="login-password" name="password" required placeholder="Password">
+         <span class="toggle-password" onclick="togglePassword(event, 'login-password', this)">
+             <i class="fa fa-eye"></i>
+         </span>
+         <i class="fa fa-lock"></i>
+            </div>
+           
                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-               <input type="submit" value="Login" id = "btn">
+               <button type = "submit" id = "loginBtn"><i class="fa fa-sign-in-alt"></i> Login</button>
         </form>
         <div class="auth-link">
             Don't have an account? <a href="#" id="show-register">Register</a><br>
@@ -59,49 +54,129 @@ if (empty($_SESSION['csrf_token'])) {
     </div>
 
     <!-- Register Form -->
-    <div class="auth-container" id="register-form">
+    <div class="auth-container" id="register-form" style = "display:none;">
         <h2>Register</h2>
         <h3>Join Us Now</h3>
-        <form class="auth-form" action="signup.php" method="POST">
+         <?php echo $message; ?>
+        <form class="auth-form" action="signup.php" method="POST" >
             <label for="signup-name">Full Name</label>
-            <input type="text" id="signup-name" name="name" required>
-            <label for="signup-email">Email</label>
-            <input type="email" id="signup-email" name="email" required>
+            <div class="input-icon">
+    <input type="text" id="signup-name" name="username" required placeholder="Full Name">
+    <i class="fa fa-user"></i>
+</div>
+            <label for="signup-email"><i class="fa fa-envelope"></i> Email</label>
+             <div class="input-icon">
+            <input type="email" id="signup-email" name="email" required placeholder="Email">
+             <i class="fa fa-envelope"></i>
+              </div>
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required>
-            <progress id="strengthBar" value="0" max="4" style="width:100%;"></progress>
-            <input type="checkbox" id="showPass" onclick="togglePassword()"> Show Password
-            <input type="submit" value="Sign Up" id = "btn">
-        </form>
-        <div class="auth-link">
-            Already have an account? <a href="#" id="show-login-from-register">Login</a>
+            <label for="signup-password">Password</label>
+           <div class="input-icon">
+    <input type="password" id="signup-password" name="password" required placeholder="Password">
+    <span class="toggle-password" onclick="togglePassword(event, 'signup-password', this)">
+        <i class="fa fa-eye"></i>
+    </span>
+    <i class="fa fa-lock"></i>
         </div>
-    </div>
-
+            <label for="signup-confirm-password">Confirm Password</label>
+                   <div class="input-icon">
+         <input type="password" id="signup-confirm-password" name="confirm_password" required placeholder="Confirm Password">
+            <span class="toggle-password" onclick="togglePassword(event, 'signup-confirm-password', this)">
+        <i class="fa fa-eye"></i>
+              </span>
+            <i class="fa fa-lock"></i>
+            </div>
+            <progress id="strengthBar" value="0" max="4" style="width:100%;"></progress>
+           <button type = "submit" id = "registerBtn"><i class="fa fa-user-plus"></i> Register Now</button></button>
+           <div class="auth-link">
+    <a href="#" id="back-to-social">Back to social options</a>
+</div>
+        </form>
+</div>
+        <div class="social-register auth-container" id="social-register-options" style = "display = block;">
+    <p style="text-align:center; color:var(--text-light); margin:18px 0;">Register using</p>
+    <a href="google-login.php" class="social-btn google-btn">
+        <i class="fab fa-google"></i> Sign in with Google
+    </a>
+    <a href="facebook-login.php" class="social-btn facebook-btn">
+        <i class="fab fa-facebook"></i> Sign in with Facebook
+    </a>
+    <button type="button" class="social-btn email-btn" id="choose-email-btn">
+        <i class="fa fa-envelope"></i> Email
+    </button>
+</div>
     <!-- Forgot Password Form -->
     <div class="auth-container" id="forgot-form">
         <h2>Forgot Password</h2>
         <h3>Reset password</h3>
         <form class="auth-form" action="forgot-password.php" method="POST">
             <label for="forgot-email">Enter your email</label>
-            <input type="email" id="forgot-email" name="email" required>
+                  <div class="input-icon">
+             <input type="email" id="reset-email" name="email" required placeholder="Email">
+             <i class="fa fa-envelope"></i>
+            </div>
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-            <input type="submit" value="Send Reset Link" id = "btn">
+            
+            <button type = "submit" id = "resetBtn"><i class="fa fa-paper-plane"></i> Send Reset Link</button>
         </form>
         <div class="auth-link">
             Remembered? <a href="#" id="show-login-from-forgot">Login</a>
         </div>
     </div>
 </main>
-
-<footer>
-    <p>&copy; 2025 TechRica. All Rights Reserved.</p>
+ <footer>
+    
+  <section class="footer">
+     <div class="footer-desc">
+    <div>
+        <picture>
+        <img src="images/IMG-20250413-WA0003.jpg" alt="our company logo">
+    </picture>
+    <h6>Tech.Rica</h6>
+    </div>
+      <p>Leading the future with cutting-edge AI solutions and digital innovations</p>   
+   </div>
+      
+        <span class="footer-socials">
+            <a href="https://facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://wa.me/your-number" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://t.me/yourusername" target="_blank"><i class="fab fa-telegram"></i></a>
+        </span>
+        <div class="quick-links">
+            <h1>Quick Links</h1>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-services">
+            <h1>Services</h1>
+            <ul>
+                <li><a href="#">AI consulting</a></li>
+                <li><a href="#">Automation Tools</a></li>
+                <li><a href="#">Digital Solutions</a></li>
+                <li><a href="#">Machine Learning</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+            <p><i class="fa fa-phone"></i> +254113798611 </p>
+            <p><i class="fa fa-envelope"></i> info@techrica.com</p>
+            <p><i class="fa fa-map-marker-alt"></i>  Nairobi,Kenya</p>
+        </div>
+  </section>
+  <hr></hr>
+   
+ <p class = "footer-p">&copy; 2025 Tech.Rica.All Rights Reserved.Power the future with AI.</p>
 </footer>
-<script src="login-sign-up.js"></script>
+
 <script src="new.js" defer></script>
 <script src = "index.js"></script>
+  <script src="login-sign-up.js"></script>
 </body>
 </html>

@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('new.js loaded and DOMContentLoaded fired');
+    window.onerror = function(message, source, lineno, colno, error) {
+        console.error('Global JS error:', message, 'at', source + ':' + lineno + ':' + colno, error);
+    };
     // Hamburger menu logic
     const hamburger = document.querySelector('.hamburger');
     const close = document.querySelector('.close');
@@ -11,17 +15,16 @@ document.addEventListener('DOMContentLoaded', function() {
         navLinks.classList.add('active');
         hamburger.style.display = 'none';
         close.style.display = 'block';
-        hide.style.visibility = "hidden";
-         hid.style.visibility = "hidden";
+        if (hide) hide.style.visibility = "hidden";
+        if (hid) hid.style.visibility = "hidden";
     }
 
     function closeMenu() {
         navLinks.classList.remove('active');
         hamburger.style.display = 'block';
         close.style.display = 'none';
-        hide.style.visibility = "visible";
-         hid.style.visibility = "visible";
-        
+        if (hide) hide.style.visibility = "visible";
+        if (hid) hid.style.visibility = "visible";
     }
 
     if (hamburger && close && navLinks && menuToggle) {
@@ -56,17 +59,37 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Navigation without href
+    /*
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function(e) {
+            console.log('Nav link clicked');
             e.preventDefault();
             const page = this.getAttribute('data-page');
+            console.log('data-page:', page);
             if (page) {
-                window.location.href = page;
+                // Use BASE_URL if available, else just navigate to the page
+                const baseUrl = (typeof BASE_URL !== 'undefined') ? BASE_URL : '/web22/';
+                console.log('Navigating to:', baseUrl + page);
+                window.location.href = baseUrl + page;
             }
             closeMenu();
         });
     });
 
-    // You can add more JS below as needed
+
 });
+*/
+document.querySelectorAll('.nav-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var page = link.getAttribute('data-page');
+        window.location.href = '../' + page; // or use AJAX to load content
+    });
+});
+
+
+
+
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'auto';
+}
